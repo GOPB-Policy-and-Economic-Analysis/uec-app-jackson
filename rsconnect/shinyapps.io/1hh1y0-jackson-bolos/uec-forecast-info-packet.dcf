@@ -1,0 +1,12 @@
+name: uec-forecast-info-packet
+title: uec-forecast-info-packet
+username: 1hh1y0-jackson-bolos
+account: 1hh1y0-jackson-bolos
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11484677
+bundleId: 8433175
+url: https://1hh1y0-jackson-bolos.shinyapps.io/uec-forecast-info-packet/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
