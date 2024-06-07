@@ -1282,16 +1282,20 @@ pop_forecast_plot <- ggplotly(pop_forecast_plot, tooltip = "text") %>%
 # print(pop_forecast_plot)
 
 # *** UT Pop Forecast Table -----------------------------------------------
-gardner_pop_table <- readRDS("pop/gardner_pop_table.rds")
 
-# this is to pull the date of the Gardner numbers
-gardner_forecast_year <- grep("Gardner", unique(pop_forecast_data$source))[[1]]
-gardner_forecast_year <- unique(pop_forecast_data$source)[gardner_forecast_year]
-gardner_forecast_year <- as.character(gardner_forecast_year)
-gardner_forecast_year <- strsplit(as.character(gardner_forecast_year), " ")[[1]]
-gardner_forecast_year <- paste(tail(gardner_forecast_year, 2), collapse = " ")
 
-gardner_pop_forecasts <- format_table(paste("Gardner Institute Unofficial Estimate", gardner_forecast_year), gardner_pop_table)
+if(file.exists("pop/gardner_pop_table.rds")){ # include_gardner == T // unofficial gardner estimate exists
+  gardner_pop_table <- readRDS("pop/gardner_pop_table.rds")
+  
+  # this is to pull the date of the Gardner numbers
+  gardner_forecast_year <- grep("Gardner", unique(pop_forecast_data$source))[[1]]
+  gardner_forecast_year <- unique(pop_forecast_data$source)[gardner_forecast_year]
+  gardner_forecast_year <- as.character(gardner_forecast_year)
+  gardner_forecast_year <- strsplit(as.character(gardner_forecast_year), " ")[[1]]
+  gardner_forecast_year <- paste(tail(gardner_forecast_year, 2), collapse = " ")
+  
+  gardner_pop_forecasts <- format_table(paste("Gardner Institute Unofficial Estimate", gardner_forecast_year), gardner_pop_table)
+}
 
 moody_pop_table <- readRDS("pop/moody_pop_table.rds")
 moody_pop_forecasts <- format_table("Moody's Analytics", moody_pop_table)
@@ -1309,17 +1313,29 @@ if(!(final_year %in% colnames(rawg_pop_forecasts)))
 uec_pop_table <- readRDS("pop/uec_pop_table.rds")
 uec_pop_forecasts <- format_table(paste("Economic Council", format(uec_date, "%b %Y")), uec_pop_table)
 
+if(file.exists("pop/gardner_pop_table.rds")){
+  pop_forecasts <- rbind(gardner_pop_forecasts,
+                         moody_pop_forecasts,
+                         rawg_pop_forecasts,
+                         uec_pop_forecasts)
+  
+  # declutter
+  rm(gardner_pop_forecasts,
+     moody_pop_forecasts,
+     rawg_pop_forecasts,
+     uec_pop_forecasts)
 
-pop_forecasts <- rbind(gardner_pop_forecasts,
-                       moody_pop_forecasts,
-                       rawg_pop_forecasts,
-                       uec_pop_forecasts)
+} else {
+  pop_forecasts <- rbind(moody_pop_forecasts,
+                         rawg_pop_forecasts,
+                         uec_pop_forecasts)
+  
+  # declutter
+  rm(moody_pop_forecasts,
+     rawg_pop_forecasts,
+     uec_pop_forecasts)
+}
 
-# declutter
-rm(gardner_pop_forecasts,
-   moody_pop_forecasts,
-   rawg_pop_forecasts,
-   uec_pop_forecasts)
 
 # UI ----------------------------------------------------------------------
 
@@ -1355,16 +1371,14 @@ ui <- fluidPage(
                       tags$br(),
                       tags$p("This information packet provides Utah Economic Council members
                              with definitions, sources, and context for their
-                             quarterly economic indicator forecasts.", br(),
+                             quarterly economic indicator forecasts.", br(), br(),
                              "Each indicator page includes interactive tools for
                              visualizing indicator historical actuals,
                              up-to-date quarterly year-over-year changes (where applicable),
                              quarterly percent change forecasts from various sources,
-                             and a forecast summary on the yearly level.", br(),
+                             and a forecast summary on the yearly level.", br(), br(),
                              "Both historical and forecast data are available for
-                             download within each page (improvements to be made to
-                             provide all-inclusive download and detailed forecast accessibility).
-                             Tab title hyperlinks provide redirection to public
+                             download within each page. Tab title hyperlinks provide redirection to public
                              historical data sources for convenient citation.
                              Series IDs are provided when necessary for retrieving data.",
                              style="font-size: 1.375vw;"),
@@ -1403,9 +1417,10 @@ ui <- fluidPage(
                         tags$li(tags$a(href="#", onclick="Shiny.setInputValue('switch_tab', 'population_tab');", tags$u("Utah population year-over change"))),
                         ),
                       
-                      # tags$p("The subsections and linked data sheet (click on the subsection headers to access data
-                      #      and source information) include recent information for each indicator."),
-                      # style="font-size: 1.25vw;"
+                      #tags$p(paste0("Navigate to the most recent Utah Economic Council forecast sheet here."), style="font-size: 1.5vw;"),
+                      
+                      tags$p(paste0("Data last updated: ", format(today(), "%B %e, %Y")), style="font-size: 1.5vw;"),
+                      
                       
                )
                
