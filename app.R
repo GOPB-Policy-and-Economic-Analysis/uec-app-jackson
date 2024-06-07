@@ -1419,8 +1419,15 @@ ui <- fluidPage(
                       
                       #tags$p(paste0("Navigate to the most recent Utah Economic Council forecast sheet here."), style="font-size: 1.5vw;"),
                       
+                      # tags$p(
+                      #   "Dashboard developed by: ",
+                      #   tags$a(href = "https://www.linkedin.com/in/jackson-bolos/", "Jackson Bolos", target = "_blank"),
+                      #   style = "font-size: 1.5vw;"
+                      # ),
+                      
                       tags$p(paste0("Data last updated: ", format(today(), "%B %e, %Y")), style="font-size: 1.5vw;"),
                       
+                      #tags$p(paste0("Developed by: Jackson Bolos"), style="font-size: 1.5vw;"),
                       
                )
                
