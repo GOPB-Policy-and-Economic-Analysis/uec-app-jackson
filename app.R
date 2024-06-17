@@ -29,6 +29,9 @@ uec_date <- readRDS("uec_date.rds")
 
 year <- year(Sys.Date())
 
+last_updated <- "June 7, 2024"
+# last_updated <- format(today(), "%B %e, %Y") # I think this changes daily when the app is re-run
+
 # set years of forecast interest from current year to two years out
 forecast_years <- c(as.character(year),
                     as.character(year + 1),
@@ -1425,7 +1428,7 @@ ui <- fluidPage(
                       #   style = "font-size: 1.5vw;"
                       # ),
                       
-                      tags$p(paste0("Data last updated: ", format(today(), "%B %e, %Y")), style="font-size: 1.5vw;"),
+                      tags$p(paste0("Data last updated: ", last_updated), style="font-size: 1.5vw;"),
                       
                       #tags$p(paste0("Developed by: Jackson Bolos"), style="font-size: 1.5vw;"),
                       
