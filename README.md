@@ -21,3 +21,11 @@ Save acquired data remotely instead of locally (these storage options are compat
 Put query script and app into same folder; include automatic app deployment at end of query script, so all (including app republication) will take place by running one file.
 
 Combine data integration and application into one project.
+
+
+Alexis updates:
+
+- Remove Blue Chip or better (automatically) integrate into workflow
+- Rename App Summary to Overview
+- Comb through Jackson's suggestions
+- Change color palette to Kem C's forecasting packet palette
