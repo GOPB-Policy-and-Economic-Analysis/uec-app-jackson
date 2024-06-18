@@ -25,7 +25,9 @@ Combine data integration and application into one project.
 
 Alexis updates:
 
-- Remove Blue Chip or better (automatically) integrate into workflow
+- **Important:** Remove Blue Chip or better (automatically) integrate into workflow
+- **David feedback**: Add monthly date to all forecast sources
+- **Richie feedback**: Hard code preliminary revenue numbers into app, but make sure historical data is correct (e.g., Mar 2023 not matching between public website and email chain)
 - Rename App Summary to Overview
 - Comb through Jackson's suggestions
 - Change color palette to Kem C's forecasting packet palette
