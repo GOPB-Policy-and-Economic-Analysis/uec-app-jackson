@@ -23,7 +23,7 @@ Put query script and app into same folder; include automatic app deployment at e
 Combine data integration and application into one project.
 
 
-Alexis updates:
+## Alexis updates:
 
 - **Important:** Remove Blue Chip or better (automatically) integrate into workflow
 - **David feedback**: Add monthly date to all forecast sources
