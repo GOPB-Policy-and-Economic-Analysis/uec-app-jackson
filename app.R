@@ -24,12 +24,17 @@ library(fontawesome)
 
 # * Other Setup -----------------------------------------------------------
 
+# manually set dates for all forecast sources (safe assumption is prior month)
+SPG_date <- "Nov 2024"
+moody_date <- "Nov 2024"
+bc_date <- "Nov 2024"
+
 # bring in UEC responses date
 uec_date <- readRDS("uec_date.rds")
 
 year <- year(Sys.Date())
 
-last_updated <- "June 7, 2024"
+last_updated <- "December 3, 2024"
 # last_updated <- format(today(), "%B %e, %Y") # I think this changes daily when the app is re-run
 
 # set years of forecast interest from current year to two years out
@@ -244,10 +249,12 @@ cpi_plot <- ggplotly(cpi_plot, tooltip = "text") %>%
 
 # *** CPI Forecast Table --------------------------------------------------
 spg_cpia_table <- readRDS("cpi/spg_cpia_table.rds")
-spg_cpi_forecasts <- format_table("S&P Global", spg_cpia_table)
+spg_cpi_forecasts <- format_table(paste("S&P Global", SPG_date), spg_cpia_table)
+
+
 
 moody_cpia_table <- readRDS("cpi/moody_cpia_table.rds")
-moody_cpi_forecasts <- format_table("Moody's Analytics", moody_cpia_table)
+moody_cpi_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_cpia_table)
 
 cpi_forecasts <- rbind(spg_cpi_forecasts,
                        moody_cpi_forecasts)
@@ -259,7 +266,7 @@ rm(spg_cpi_forecasts,
 blue_chip_cpi <- readRDS("cpi/blue_chip_cpi.rds")
 if(!is.null(blue_chip_cpi)) # is null if indicated at top of other script
 {
-    blue_chip_cpi_forecasts <- format_table("Blue Chip", blue_chip_cpi)
+    blue_chip_cpi_forecasts <- format_table(paste("Blue Chip", bc_date), blue_chip_cpi)
     cpi_forecasts <- rbind(cpi_forecasts, blue_chip_cpi_forecasts)
 }
 # declutter
@@ -336,10 +343,10 @@ usur_plot <- ggplotly(usur_plot, tooltip = "text") %>%
 
 # *** US UR Forecast Table ------------------------------------------------
 spg_usura_table <- readRDS("usur/spg_usura_table.rds")
-spg_usur_forecasts <- format_table("S&P Global", spg_usura_table)
+spg_usur_forecasts <- format_table(paste("S&P Global", SPG_date), spg_usura_table)
 
 moody_usura_table <- readRDS("usur/moody_usura_table.rds")
-moody_usur_forecasts <- format_table("Moody's Analytics", moody_usura_table)
+moody_usur_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_usura_table)
 
 usur_forecasts <- rbind(spg_usur_forecasts,
                        moody_usur_forecasts)
@@ -351,7 +358,7 @@ rm(spg_usur_forecasts,
 blue_chip_usur <- readRDS("usur/blue_chip_usur.rds")
 if(!is.null(blue_chip_usur)) # is null if indicated at top of other script
 {
-  blue_chip_usur_forecasts <- format_table("Blue Chip", blue_chip_usur)
+  blue_chip_usur_forecasts <- format_table(paste("Blue Chip", bc_date), blue_chip_usur)
   usur_forecasts <- rbind(usur_forecasts, blue_chip_usur_forecasts)
 }
 
@@ -474,10 +481,10 @@ gdp_forecast_plot <- ggplotly(gdp_forecast_plot, tooltip = "text") %>%
 
 # *** GDP Forecast Table --------------------------------------------------
 spg_gdpa_table <- readRDS("gdp/spg_gdpa_table.rds")
-spg_gdp_forecasts <- format_table("S&P Global", spg_gdpa_table)
+spg_gdp_forecasts <- format_table(paste("S&P Global", SPG_date), spg_gdpa_table)
 
 moody_gdpa_table <- readRDS("gdp/moody_gdpa_table.rds")
-moody_gdp_forecasts <- format_table("Moody's Analytics", moody_gdpa_table)
+moody_gdp_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_gdpa_table)
 
 gdp_forecasts <- rbind(spg_gdp_forecasts,
                         moody_gdp_forecasts)
@@ -489,7 +496,7 @@ rm(spg_gdp_forecasts,
 blue_chip_gdp <- readRDS("gdp/blue_chip_gdp.rds")
 if(!is.null(blue_chip_gdp)) # is null if indicated at top of other script
 {
-  blue_chip_gdp_forecasts <- format_table("Blue Chip", blue_chip_gdp)
+  blue_chip_gdp_forecasts <- format_table(paste("Blue Chip", bc_date), blue_chip_gdp)
   gdp_forecasts <- rbind(gdp_forecasts, blue_chip_gdp_forecasts)
 }
 # declutter
@@ -609,7 +616,7 @@ npi_forecast_plot <- ggplotly(npi_forecast_plot, tooltip = "text") %>%
 
 # *** NPI Forecast Table --------------------------------------------------
 moody_npia_table <- readRDS("npi/moody_npia_table.rds")
-moody_npi_forecasts <- format_table("Moody's Analytics", moody_npia_table)
+moody_npi_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_npia_table)
 
 rawg_npi_table <- readRDS("npi/rawg_npi_table.rds")
 colname <- colnames(rawg_npi_table)[2] # to send column identification through function as "source"
@@ -682,7 +689,7 @@ utur_plot <- ggplotly(utur_plot, tooltip = "text") %>%
 
 # *** UT UR Forecast Table ------------------------------------------------
 moody_utura_table <- readRDS("utur/moody_utura_table.rds")
-moody_utur_forecasts <- format_table("Moody's Analytics", moody_utura_table)
+moody_utur_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_utura_table)
 
 rawg_utur_table <- readRDS("utur/rawg_utur_table.rds")
 colname <- colnames(rawg_utur_table)[2] # to send column identification through function as "source"
@@ -798,7 +805,7 @@ emp_forecast_plot <- ggplotly(emp_forecast_plot, tooltip = "text") %>%
 
 # *** Emp Forecast Table --------------------------------------------------
 moody_empa_table <- readRDS("emp/moody_empa_table.rds")
-moody_emp_forecasts <- format_table("Moody's Analytics", moody_empa_table)
+moody_emp_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_empa_table)
 
 rawg_emp_table <- readRDS("emp/rawg_emp_table.rds")
 colname <- colnames(rawg_emp_table)[2] # to send column identification through function as "source"
@@ -1170,7 +1177,7 @@ hpi_forecast_plot <- ggplotly(hpi_forecast_plot, tooltip = "text") %>%
 
 # *** UT HPI Forecast Table -----------------------------------------------
 moody_hpia_table <- readRDS("hpi/moody_hpia_table.rds")
-moody_hpi_forecasts <- format_table("Moody's Analytics", moody_hpia_table)
+moody_hpi_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_hpia_table)
 
 rawg_hpi_table <- readRDS("hpi/rawg_hpi_table.rds")
 colname <- colnames(rawg_hpi_table)[2] # to send column identification through function as "source"
@@ -1301,7 +1308,7 @@ if(file.exists("pop/gardner_pop_table.rds")){ # include_gardner == T // unoffici
 }
 
 moody_pop_table <- readRDS("pop/moody_pop_table.rds")
-moody_pop_forecasts <- format_table("Moody's Analytics", moody_pop_table)
+moody_pop_forecasts <- format_table(paste("Moody's Analytics", moody_date), moody_pop_table)
 
 rawg_pop_table <- readRDS("pop/rawg_pop_table.rds")
 colname <- colnames(rawg_pop_table)[2] # to send column identification through function as "source"
